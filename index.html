@@ -5,968 +5,165 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAFE Challenge Station Quiz</title>
   <style>
-    :root {
-      --bg: #f8f1e7;
-      --paper: #fffdf7;
-      --ink: #222;
-      --muted: #6f665c;
-      --primary: #1f6f4a;
-      --primary-soft: #dff3e9;
-      --accent: #f2b84b;
-      --accent-soft: #fff1cc;
-      --danger: #b73a3a;
-      --success: #1f7a4d;
-      --border: #e2d3bd;
-      --shadow: 0 18px 45px rgba(54, 38, 18, 0.14);
-      --radius: 22px;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Times New Roman", Times, serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top left, rgba(242,184,75,0.22), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(31,111,74,0.17), transparent 32%),
-        linear-gradient(135deg, #fff7e8, var(--bg));
-      min-height: 100vh;
-    }
-
-    .app-shell {
-      width: min(1120px, 94vw);
-      margin: 0 auto;
-      padding: 28px 0 44px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .safe-logo {
-      width: 88px;
-      height: 88px;
-      border-radius: 24px;
-      background: linear-gradient(145deg, #ffffff, #fff0c6);
-      border: 2px solid #1f6f4a;
-      box-shadow: var(--shadow);
-      display: grid;
-      place-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .safe-logo::before {
-      content: "";
-      position: absolute;
-      width: 120px;
-      height: 34px;
-      background: rgba(31,111,74,0.13);
-      transform: rotate(-28deg);
-      top: 10px;
-      left: -18px;
-    }
-
-    .safe-logo .safe-word {
-      font-family: Arial, sans-serif;
-      font-size: 27px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      color: var(--primary);
-      z-index: 1;
-    }
-
-    .safe-logo .subtitle {
-      position: absolute;
-      bottom: 13px;
-      font-family: Arial, sans-serif;
-      font-size: 8px;
-      color: #7a5c1b;
-      letter-spacing: 0.8px;
-      z-index: 1;
-    }
-
-    .title-block h1 {
-      margin: 0;
-      font-size: clamp(30px, 5vw, 54px);
-      line-height: 0.95;
-      letter-spacing: -0.8px;
-    }
-
-    .title-block p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 18px;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid var(--border);
-      background: rgba(255,253,247,0.82);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 16px;
-      box-shadow: 0 8px 20px rgba(54,38,18,0.08);
-      white-space: nowrap;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .card {
-      background: rgba(255,253,247,0.92);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px;
-      backdrop-filter: blur(10px);
-    }
-
-    .menu-board {
-      background: #222;
-      color: #fff8e6;
-      border-radius: 18px;
-      padding: 18px;
-      border: 8px solid #8a5a2b;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.16), var(--shadow);
-      min-height: 300px;
-      position: sticky;
-      top: 20px;
-    }
-
-    .menu-board h2 {
-      margin: 0 0 14px;
-      font-family: Arial, sans-serif;
-      font-size: 23px;
-      color: #ffe08b;
-      text-align: center;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .chalk-line {
-      border-top: 2px dashed rgba(255,255,255,0.4);
-      margin: 12px 0 16px;
-    }
-
-    .rule {
-      display: grid;
-      grid-template-columns: 30px 1fr;
-      gap: 9px;
-      align-items: start;
-      margin: 14px 0;
-      font-size: 18px;
-      line-height: 1.25;
-    }
-
-    .rule span:first-child {
-      width: 27px;
-      height: 27px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255,255,255,0.6);
-      border-radius: 50%;
-      color: #ffe08b;
-      font-weight: 700;
-      font-family: Arial, sans-serif;
-    }
-
-    .mini-note {
-      margin-top: 18px;
-      color: rgba(255,248,230,0.78);
-      font-size: 15px;
-      line-height: 1.35;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .section-header h2 {
-      margin: 0;
-      font-size: 32px;
-    }
-
-    .btn, button {
-      border: none;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-      border-radius: 16px;
-      padding: 14px 18px;
-      font-weight: 800;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    }
-
-    .btn:hover, button:hover { transform: translateY(-1px); }
-    .btn:active, button:active { transform: translateY(0); }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-      box-shadow: 0 10px 20px rgba(31,111,74,0.24);
-    }
-
-    .btn-secondary {
-      background: #fff;
-      color: var(--primary);
-      border: 1px solid var(--border);
-    }
-
-    .btn-accent {
-      background: var(--accent);
-      color: #2c220d;
-      box-shadow: 0 10px 20px rgba(242,184,75,0.24);
-    }
-
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .category-card {
-      border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 18px;
-      padding: 18px;
-      min-height: 130px;
-      text-align: left;
-      box-shadow: 0 12px 26px rgba(54,38,18,0.08);
-      font-family: "Times New Roman", Times, serif;
-    }
-
-    .category-card h3 {
-      margin: 0 0 8px;
-      font-size: 22px;
-      font-family: Arial, sans-serif;
-    }
-
-    .category-card p {
-      margin: 0;
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-
-    .category-card .count {
-      display: inline-flex;
-      margin-top: 12px;
-      padding: 6px 10px;
-      background: var(--primary-soft);
-      border-radius: 999px;
-      color: var(--primary);
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-      font-weight: 800;
-    }
-
-    .question-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .tag {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border-radius: 999px;
-      padding: 8px 11px;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .tag.gold {
-      background: var(--accent-soft);
-      color: #7a510a;
-    }
-
-    .question-text {
-      font-size: clamp(24px, 3.2vw, 38px);
-      line-height: 1.14;
-      margin: 4px 0 22px;
-      font-weight: 700;
-    }
-
-    .options {
-      display: grid;
-      gap: 12px;
-    }
-
-    .option-btn {
-      text-align: left;
-      background: #fff;
-      border: 1px solid var(--border);
-      color: var(--ink);
-      padding: 15px 16px;
-      font-size: 18px;
-      font-family: "Times New Roman", Times, serif;
-      font-weight: 600;
-      border-radius: 16px;
-      box-shadow: 0 7px 14px rgba(54,38,18,0.07);
-    }
-
-    .option-btn.selected.correct {
-      background: #e4f5ea;
-      border-color: #91d4ae;
-      color: var(--success);
-    }
-
-    .option-btn.selected.wrong {
-      background: #fde7e7;
-      border-color: #f1aaaa;
-      color: var(--danger);
-    }
-
-    .option-btn.reveal-correct {
-      background: #e4f5ea;
-      border-color: #91d4ae;
-      color: var(--success);
-    }
-
-    .feedback {
-      margin-top: 18px;
-      border-radius: 18px;
-      padding: 18px;
-      background: #fff;
-      border: 1px solid var(--border);
-      box-shadow: 0 12px 24px rgba(54,38,18,0.08);
-    }
-
-    .feedback h3 {
-      margin: 0 0 8px;
-      font-family: Arial, sans-serif;
-      font-size: 22px;
-    }
-
-    .feedback.correct h3 { color: var(--success); }
-    .feedback.wrong h3 { color: var(--danger); }
-
-    .feedback p {
-      margin: 8px 0 0;
-      font-size: 18px;
-      line-height: 1.42;
-    }
-
-    .footer-actions {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .scorebar {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .scoreitem {
-      border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 16px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .scoreitem strong {
-      display: block;
-      font-family: Arial, sans-serif;
-      font-size: 24px;
-      color: var(--primary);
-    }
-
-    .scoreitem span {
-      font-size: 13px;
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-weight: 700;
-    }
-
-    .summary-title {
-      font-size: clamp(34px, 6vw, 62px);
-      line-height: 0.95;
-      margin: 0 0 14px;
-    }
-
-    .result-badge {
-      display: inline-flex;
-      padding: 11px 16px;
-      border-radius: 999px;
-      font-family: Arial, sans-serif;
-      font-weight: 900;
-      margin-bottom: 18px;
-    }
-
-    .result-badge.gift {
-      background: var(--accent-soft);
-      color: #7a510a;
-      border: 1px solid #eac264;
-    }
-
-    .result-badge.stamp {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border: 1px solid #a9dfc5;
-    }
-
-    .hidden { display: none !important; }
-
-    .history {
-      margin-top: 20px;
-      border-top: 1px solid var(--border);
-      padding-top: 14px;
-    }
-
-    .history h3 {
-      margin: 0 0 10px;
-      font-family: Arial, sans-serif;
-    }
-
-    .history-list {
-      max-height: 260px;
-      overflow: auto;
-      padding-right: 6px;
-    }
-
-    .history-item {
-      border: 1px solid var(--border);
-      background: #fff;
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 10px;
-      font-size: 15px;
-      line-height: 1.35;
-    }
-
-    .history-item strong { font-family: Arial, sans-serif; }
-
-    @media (max-width: 880px) {
-      .layout { grid-template-columns: 1fr; }
-      .menu-board { position: relative; top: 0; }
-      .category-grid { grid-template-columns: 1fr; }
-      .topbar { align-items: flex-start; flex-direction: column; }
-      .scorebar { grid-template-columns: 1fr; }
-    }
+    :root{--bg:#f8f1e7;--paper:#fffdf7;--ink:#222;--muted:#6f665c;--primary:#1f6f4a;--primary-soft:#dff3e9;--accent:#f2b84b;--accent-soft:#fff1cc;--danger:#b73a3a;--success:#1f7a4d;--border:#e2d3bd;--shadow:0 18px 45px rgba(54,38,18,.14);--radius:22px}*{box-sizing:border-box}body{margin:0;font-family:"Times New Roman",Times,serif;color:var(--ink);background:radial-gradient(circle at top left,rgba(242,184,75,.22),transparent 34%),radial-gradient(circle at bottom right,rgba(31,111,74,.17),transparent 32%),linear-gradient(135deg,#fff7e8,var(--bg));min-height:100vh}.app-shell{width:min(1120px,94vw);margin:0 auto;padding:28px 0 44px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.logo-wrap{display:flex;align-items:center;gap:14px}.safe-logo{width:88px;height:88px;border-radius:24px;background:linear-gradient(145deg,#fff,#fff0c6);border:2px solid #1f6f4a;box-shadow:var(--shadow);display:grid;place-items:center;position:relative;overflow:hidden}.safe-logo:before{content:"";position:absolute;width:120px;height:34px;background:rgba(31,111,74,.13);transform:rotate(-28deg);top:10px;left:-18px}.safe-word{font-family:Arial,sans-serif;font-size:27px;font-weight:900;letter-spacing:1px;color:var(--primary);z-index:1}.subtitle{position:absolute;bottom:13px;font-family:Arial,sans-serif;font-size:8px;color:#7a5c1b;letter-spacing:.8px;z-index:1}.title-block h1{margin:0;font-size:clamp(30px,5vw,54px);line-height:.95;letter-spacing:-.8px}.title-block p{margin:8px 0 0;color:var(--muted);font-size:18px}.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:rgba(255,253,247,.82);border-radius:999px;padding:10px 14px;font-size:16px;box-shadow:0 8px 20px rgba(54,38,18,.08);white-space:nowrap}.layout{display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start}.card{background:rgba(255,253,247,.92);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;backdrop-filter:blur(10px)}.menu-board{background:#222;color:#fff8e6;border-radius:18px;padding:18px;border:8px solid #8a5a2b;box-shadow:inset 0 0 0 2px rgba(255,255,255,.16),var(--shadow);min-height:300px;position:sticky;top:20px}.menu-board h2{margin:0 0 14px;font-family:Arial,sans-serif;font-size:23px;color:#ffe08b;text-align:center;letter-spacing:1px;text-transform:uppercase}.chalk-line{border-top:2px dashed rgba(255,255,255,.4);margin:12px 0 16px}.rule{display:grid;grid-template-columns:30px 1fr;gap:9px;align-items:start;margin:14px 0;font-size:18px;line-height:1.25}.rule span:first-child{width:27px;height:27px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.6);border-radius:50%;color:#ffe08b;font-weight:700;font-family:Arial,sans-serif}.mini-note{margin-top:18px;color:rgba(255,248,230,.78);font-size:15px;line-height:1.35}.section-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.section-header h2{margin:0;font-size:32px}.btn,button{border:none;font-family:Arial,sans-serif;cursor:pointer;border-radius:16px;padding:14px 18px;font-weight:800;transition:transform .15s ease,box-shadow .15s ease,background .15s ease}.btn:hover,button:hover{transform:translateY(-1px)}.btn:active,button:active{transform:translateY(0)}.btn-primary{background:var(--primary);color:#fff;box-shadow:0 10px 20px rgba(31,111,74,.24)}.btn-secondary{background:#fff;color:var(--primary);border:1px solid var(--border)}.btn-accent{background:var(--accent);color:#2c220d;box-shadow:0 10px 20px rgba(242,184,75,.24)}.category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.category-card{border:1px solid var(--border);background:#fff;border-radius:18px;padding:18px;min-height:130px;text-align:left;box-shadow:0 12px 26px rgba(54,38,18,.08);font-family:"Times New Roman",Times,serif}.category-card h3{margin:0 0 8px;font-size:22px;font-family:Arial,sans-serif}.category-card p{margin:0;font-size:16px;color:var(--muted);line-height:1.35}.category-card .count{display:inline-flex;margin-top:12px;padding:6px 10px;background:var(--primary-soft);border-radius:999px;color:var(--primary);font-size:13px;font-family:Arial,sans-serif;font-weight:800}.question-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}.tag{background:var(--primary-soft);color:var(--primary);border-radius:999px;padding:8px 11px;font-family:Arial,sans-serif;font-size:13px;font-weight:800}.tag.gold{background:var(--accent-soft);color:#7a510a}.question-text{font-size:clamp(23px,3vw,36px);line-height:1.14;margin:4px 0 22px;font-weight:700}.options{display:grid;gap:12px}.option-btn{text-align:left;background:#fff;border:1px solid var(--border);color:var(--ink);padding:15px 16px;font-size:18px;font-family:"Times New Roman",Times,serif;font-weight:600;border-radius:16px;box-shadow:0 7px 14px rgba(54,38,18,.07)}.option-btn.multi-selected{outline:3px solid rgba(31,111,74,.25);border-color:#1f6f4a}.option-btn.selected.correct{background:#e4f5ea;border-color:#91d4ae;color:var(--success)}.option-btn.selected.wrong{background:#fde7e7;border-color:#f1aaaa;color:var(--danger)}.option-btn.reveal-correct{background:#e4f5ea;border-color:#91d4ae;color:var(--success)}.feedback{margin-top:18px;border-radius:18px;padding:18px;background:#fff;border:1px solid var(--border);box-shadow:0 12px 24px rgba(54,38,18,.08)}.feedback h3{margin:0 0 8px;font-family:Arial,sans-serif;font-size:22px}.feedback.correct h3{color:var(--success)}.feedback.wrong h3{color:var(--danger)}.feedback p{margin:8px 0 0;font-size:18px;line-height:1.42}.footer-actions{display:flex;justify-content:space-between;gap:12px;margin-top:20px;flex-wrap:wrap}.scorebar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.scoreitem{border:1px solid var(--border);background:#fff;border-radius:16px;padding:12px;text-align:center}.scoreitem strong{display:block;font-family:Arial,sans-serif;font-size:24px;color:var(--primary)}.scoreitem span{font-size:13px;color:var(--muted);font-family:Arial,sans-serif;font-weight:700}.summary-title{font-size:clamp(34px,6vw,62px);line-height:.95;margin:0 0 14px}.result-badge{display:inline-flex;padding:11px 16px;border-radius:999px;font-family:Arial,sans-serif;font-weight:900;margin-bottom:18px}.result-badge.gift{background:var(--accent-soft);color:#7a510a;border:1px solid #eac264}.result-badge.stamp{background:var(--primary-soft);color:var(--primary);border:1px solid #a9dfc5}.hidden{display:none!important}.history{margin-top:20px;border-top:1px solid var(--border);padding-top:14px}.history h3{margin:0 0 10px;font-family:Arial,sans-serif}.history-list{max-height:260px;overflow:auto;padding-right:6px}.history-item{border:1px solid var(--border);background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;font-size:15px;line-height:1.35}.history-item strong{font-family:Arial,sans-serif}@media(max-width:880px){.layout{grid-template-columns:1fr}.menu-board{position:relative;top:0}.category-grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.scorebar{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
-      <div class="logo-wrap">
-        <div class="safe-logo" aria-label="SAFE Logo">
-          <div class="safe-word">SAFE</div>
-          <div class="subtitle">Challenge</div>
-        </div>
-        <div class="title-block">
-          <h1>SAFE Challenge Station</h1>
-          <p>Spin the category. Answer the question. Learn the reasoning.</p>
-        </div>
-      </div>
+      <div class="logo-wrap"><div class="safe-logo"><div class="safe-word">SAFE</div><div class="subtitle">Challenge</div></div><div class="title-block"><h1>SAFE Challenge Station</h1><p>Spin the category. Answer the question. Learn the reasoning.</p></div></div>
       <div class="pill">Booth 5 · Quiz & Games</div>
     </header>
-
     <section class="layout">
       <aside class="menu-board">
-        <h2>Leaderboard</h2>
-        <div class="chalk-line"></div>
+        <h2>Leaderboard</h2><div class="chalk-line"></div>
         <div class="rule"><span>✓</span><div>Complete all 12 questions to receive a booth stamp.</div></div>
         <div class="rule"><span>★</span><div>Score 10/12 or above to win a small gift.</div></div>
-        <div class="chalk-line"></div>
-        <div id="leaderboardList" class="mini-note" style="font-size:17px;line-height:1.45;">
-          No completed participants yet.
-        </div>
+        <div class="chalk-line"></div><div id="leaderboardList" class="mini-note" style="font-size:17px;line-height:1.45;">No completed participants yet.</div>
         <button class="btn-accent" style="width:100%;margin-top:16px;padding:11px 12px;border-radius:14px;" onclick="clearLeaderboard()">Clear Leaderboard</button>
       </aside>
-
       <section>
         <div id="nameScreen" class="card">
-          <div class="section-header">
-            <h2>Participant Registration</h2>
-          </div>
+          <div class="section-header"><h2>Participant Registration</h2></div>
           <p style="font-size:20px;line-height:1.45;color:var(--muted);margin-top:0;">Please enter your name before starting the SAFE Challenge Station quiz. Refreshing this webpage will reset the session for the next participant.</p>
           <input id="participantNameInput" type="text" placeholder="Enter participant name" autocomplete="off" style="width:100%;font-size:22px;padding:16px 18px;border-radius:16px;border:1px solid var(--border);font-family:'Times New Roman', Times, serif;margin:12px 0 18px;background:#fff;">
           <button class="btn-primary" onclick="startParticipant()">Start Quiz</button>
         </div>
-
         <div id="homeScreen" class="card hidden">
-          <div class="section-header">
-            <div>
-              <h2>Choose the Category</h2>
-              <span id="participantNameDisplay" class="tag gold"></span>
-            </div>
-            <button class="btn-secondary" onclick="resetSession()">Start New Participant</button>
-          </div>
-          <div class="scorebar">
-            <div class="scoreitem"><strong id="scoreValue">0</strong><span>Correct</span></div>
-            <div class="scoreitem"><strong id="answeredValue">0</strong><span>Answered</span></div>
-            <div class="scoreitem"><strong>12</strong><span>Target Questions</span></div>
-          </div>
+          <div class="section-header"><div><h2>Choose the Category</h2><span id="participantNameDisplay" class="tag gold"></span></div><button class="btn-secondary" onclick="resetSession()">Start New Participant</button></div>
+          <div class="scorebar"><div class="scoreitem"><strong id="scoreValue">0</strong><span>Correct</span></div><div class="scoreitem"><strong id="answeredValue">0</strong><span>Answered</span></div><div class="scoreitem"><strong>12</strong><span>Target Questions</span></div></div>
           <div id="categoryGrid" class="category-grid"></div>
         </div>
-
         <div id="questionScreen" class="card hidden">
-          <div class="question-meta">
-            <span id="categoryTag" class="tag"></span>
-            <span id="progressTag" class="tag gold"></span>
-            <span id="difficultyTag" class="tag"></span>
-          </div>
-          <div id="questionText" class="question-text"></div>
-          <div id="options" class="options"></div>
+          <div class="question-meta"><span id="categoryTag" class="tag"></span><span id="progressTag" class="tag gold"></span><span id="difficultyTag" class="tag"></span><span id="typeTag" class="tag"></span></div>
+          <div id="questionText" class="question-text"></div><div id="options" class="options"></div>
+          <div class="footer-actions"><button id="submitMultiBtn" class="btn-primary hidden" onclick="submitMultiAnswer()">Submit Selected Answers</button></div>
           <div id="feedback" class="feedback hidden"></div>
-          <div class="footer-actions">
-            <button id="categoryStatusBtn" class="btn-secondary" disabled>Complete 4 questions in this category</button>
-            <button id="nextBtn" class="btn-primary hidden" onclick="nextStep()">Next Question</button>
-          </div>
+          <div class="footer-actions"><button id="categoryStatusBtn" class="btn-secondary" disabled>Complete 4 questions in this category</button><button id="nextBtn" class="btn-primary hidden" onclick="nextStep()">Next Question</button></div>
         </div>
-
         <div id="summaryScreen" class="card hidden">
-          <h2 class="summary-title">Quiz Completed</h2>
-          <div id="resultBadge" class="result-badge"></div>
-          <div class="scorebar">
-            <div class="scoreitem"><strong id="finalScore">0</strong><span>Final Score</span></div>
-            <div class="scoreitem"><strong>12</strong><span>Total Questions</span></div>
-            <div class="scoreitem"><strong>10</strong><span>Gift Threshold</span></div>
-          </div>
+          <h2 class="summary-title">Quiz Completed</h2><div id="resultBadge" class="result-badge"></div>
+          <div class="scorebar"><div class="scoreitem"><strong id="finalScore">0</strong><span>Final Score</span></div><div class="scoreitem"><strong>12</strong><span>Total Questions</span></div><div class="scoreitem"><strong>10</strong><span>Gift Threshold</span></div></div>
           <p style="font-size:20px;line-height:1.4;color:var(--muted);">All participants who complete the quiz receive a booth stamp. Participants who score 10/12 or above receive a small gift.</p>
-          <div class="footer-actions">
-            <button class="btn-accent" onclick="resetSession()">Start New Participant</button>
-            <button class="btn-secondary" onclick="showReview()">Review Answered Questions</button>
-          </div>
-          <div id="reviewBox" class="history hidden">
-            <h3>Answered Questions Review</h3>
-            <div id="historyList" class="history-list"></div>
-          </div>
+          <div class="footer-actions"><button class="btn-accent" onclick="resetSession()">Start New Participant</button><button class="btn-secondary" onclick="showReview()">Review Answered Questions</button></div>
+          <div id="reviewBox" class="history hidden"><h3>Answered Questions Review</h3><div id="historyList" class="history-list"></div></div>
         </div>
       </section>
     </section>
   </main>
-
-  <script>
-    const categories = [
-      { id: "cancer", name: "Cancer Awareness", desc: "Risk factors, screening, prevention, and responsible health communication." },
-      { id: "lifestyle", name: "Health & Lifestyle", desc: "Sleep, diet, exercise, stress, habit patterns, and risk scoring." },
-      { id: "probability", name: "Probability & Risk", desc: "Absolute risk, relative risk, sensitivity, specificity, and probability logic." },
-      { id: "finance", name: "Financial Literacy", desc: "Budgeting, insurance, emergency funds, deductibles, and decision-making." },
-      { id: "data", name: "Data Interpretation", desc: "Charts, bias, averages, sample size, and misleading visualizations." }
-    ];
-
-    const questionBank = {
-      cancer: [
-        { q: "A report states that a lifestyle factor increases a disease risk from 2% to 3%. Which public explanation is the least misleading?", o: ["The risk increased by 50%, but the absolute increase is 1 percentage point.", "The risk increased by 50 percentage points.", "The factor guarantees the disease for 3% of people.", "The increase is meaningless because both percentages are small."], a: 0, e: "Relative increase is (3−2)/2 = 50%, while absolute increase is 1 percentage point. Both should be communicated together." },
-        { q: "In cancer screening, a test with high sensitivity is mainly useful because it:", o: ["Reduces the chance of missing true cases.", "Eliminates all false positives.", "Confirms cancer without follow-up tests.", "Measures treatment cost instead of health risk."], a: 0, e: "Sensitivity is the proportion of people with the disease who test positive, so high sensitivity reduces false negatives." },
-        { q: "A participant says, ‘If I live healthily, I cannot get cancer.’ What is the most scientifically accurate response?", o: ["Healthy habits reduce risk but cannot make risk zero.", "Cancer is fully determined by diet only.", "Cancer always happens randomly and cannot be influenced.", "Only family history matters."], a: 0, e: "Cancer risk is multifactorial. Lifestyle can reduce risk, but genetics, environment, aging, and chance still matter." },
-        { q: "Why can presenting only relative risk be misleading in health awareness?", o: ["It may sound dramatic without showing the baseline risk.", "Relative risk is mathematically invalid.", "Relative risk is always smaller than absolute risk.", "It only applies to insurance."], a: 0, e: "A ‘doubling’ of risk can mean 0.1% to 0.2%, which is a large relative change but small absolute change." },
-        { q: "Which statement best describes cancer screening?", o: ["It can help detect some cancers earlier, but results need proper medical interpretation.", "It is perfect and never gives wrong results.", "A negative result means lifetime risk is zero.", "It is equally appropriate for every person regardless of age or risk."], a: 0, e: "Screening has benefits and limitations. Suitability depends on age, risk profile, test accuracy, and medical guidance." },
-        { q: "A booth infographic says ‘Cancer cases increased over 20 years.’ What extra information is needed before concluding that individual risk increased?", o: ["Population size and age structure.", "The poster font size.", "Whether the chart was printed in color.", "The number of booth facilitators."], a: 0, e: "More cases may reflect population growth or aging. Age-adjusted rates are more informative for individual risk trends." },
-        { q: "Which is the strongest example of confusing correlation with causation?", o: ["Students who search health symptoms online have more diagnoses, so internet searching causes disease.", "Smoking is associated with increased cancer risk in many studies.", "Screening results should be confirmed by professionals.", "Risk can be expressed using percentages."], a: 0, e: "People with symptoms may search more, so the association does not prove searching caused the disease." },
-        { q: "A cancer awareness poster says ‘1 in 8 people may develop X over a lifetime.’ This is best understood as:", o: ["A population-level probability, not a prediction for a specific individual.", "A guarantee that every eighth person in a line will develop it.", "A short-term daily risk.", "A statement unrelated to probability."], a: 0, e: "‘1 in 8’ describes average population risk across a defined context, not a deterministic sequence." },
-        { q: "Which communication choice is most appropriate for a public booth about cancer?", o: ["Use clear probabilities and avoid fear-based guarantees.", "Use scary claims to force behavior change.", "Avoid numbers entirely because people cannot understand them.", "State that all cancer is preventable."], a: 0, e: "Responsible health communication should be clear, accurate, balanced, and not deterministic." },
-        { q: "A test has specificity of 95%. What does this mean?", o: ["Among people without the disease, about 95% test negative.", "Among people with disease, 95% recover.", "The test is correct 95% of the time in every population.", "The disease prevalence is 95%."], a: 0, e: "Specificity measures the true negative rate: the proportion of non-diseased people who test negative." },
-        { q: "Why can a rare disease still produce many false positives during mass screening?", o: ["Because most tested people do not have the disease, even a small false-positive rate can affect many people.", "Because sensitivity becomes zero for rare diseases.", "Because prevalence is always equal to specificity.", "Because false positives only happen in small samples."], a: 0, e: "When prevalence is low, the non-diseased group is large. A small false-positive rate can generate many false positives." },
-        { q: "Which factor makes a cancer risk message more mathematically complete?", o: ["Including baseline risk, absolute change, and relative change.", "Only saying ‘risk increases’ without numbers.", "Only using emotional images.", "Removing the sample size."], a: 0, e: "Baseline and absolute changes prevent overinterpretation of relative-risk statements." },
-        { q: "A participant asks whether family history means they will definitely develop cancer. What is the best answer?", o: ["Family history may change risk, but it is not a certainty.", "Family history has no role in any cancer.", "Family history is a perfect prediction tool.", "Only lifestyle matters, never genetics."], a: 0, e: "Family history can influence risk but does not determine an individual outcome with certainty." },
-        { q: "Why should a booth avoid saying ‘this habit causes cancer’ when the evidence only shows an association?", o: ["Because causal claims require stronger evidence than association alone.", "Because statistics cannot study health.", "Because all associations are false.", "Because cancer education should never mention habits."], a: 0, e: "Causality requires careful study design and control for confounders; association alone is not enough." },
-        { q: "A risk model classifies someone as ‘high risk.’ What should the booth emphasize?", o: ["It is an educational estimate and should not replace medical advice.", "It is a final diagnosis.", "It means disease is unavoidable.", "It means no prevention is possible."], a: 0, e: "Risk models simplify reality. They can guide awareness but should not be treated as diagnosis." },
-        { q: "Which statement best connects cancer awareness with mathematics?", o: ["Mathematics helps express uncertainty, compare risks, and interpret screening data.", "Mathematics can remove all medical uncertainty.", "Mathematics is only useful for calculating hospital bills.", "Mathematics proves every individual outcome exactly."], a: 0, e: "Probability, statistics, and data interpretation help people understand risk without making deterministic claims." }
-      ],
-      lifestyle: [
-        { q: "A short lifestyle self-assessment at a booth is best used to:", o: ["Encourage reflection on risk patterns, not diagnose disease.", "Replace professional medical screening.", "Predict exact disease onset.", "Prove causation from one answer."], a: 0, e: "A self-assessment is an educational tool. It can highlight patterns but cannot diagnose." },
-        { q: "A student sleeps 5 hours during exams for one week. Which interpretation is most balanced?", o: ["Long-term patterns matter more than one isolated week, but chronic lack of sleep is concerning.", "One bad week permanently determines health.", "Sleep has no relationship with health.", "Exercise completely cancels sleep deprivation."], a: 0, e: "Health risk depends more on repeated patterns than one temporary episode, but sustained poor sleep is harmful." },
-        { q: "Why is a simple score combining diet, sleep, exercise, and stress limited?", o: ["It may oversimplify interactions and differences between individuals.", "It cannot contain numbers.", "It automatically proves disease risk.", "It is always more accurate than clinical assessment."], a: 0, e: "Simple scores are useful for education but cannot capture all biological and social factors." },
-        { q: "Two students have the same BMI but different fitness levels, diets, and blood pressure. What does this show?", o: ["One indicator cannot fully describe health risk.", "BMI perfectly summarizes all health information.", "Blood pressure is irrelevant.", "Fitness cannot affect health."], a: 0, e: "Single measures can be incomplete. Multiple indicators provide a fuller picture." },
-        { q: "Which conclusion is most justified from a 40-person voluntary lifestyle survey at a booth?", o: ["The results may reveal patterns among participants but should not be generalized to all students.", "The survey proves national trends.", "Voluntary samples have no bias.", "Forty responses guarantee causal conclusions."], a: 0, e: "Voluntary booth samples are convenient but may suffer from selection bias and limited representativeness." },
-        { q: "A participant says, ‘My family is healthy, so my lifestyle does not matter.’ Which response is strongest?", o: ["Family history is one factor, but lifestyle and environment can still influence risk.", "Family history is the only factor.", "Lifestyle only matters after age 70.", "Environment never matters."], a: 0, e: "Risk reflects genetic, behavioral, and environmental influences." },
-        { q: "What is a key problem with using only average sleep hours to compare two groups?", o: ["It can hide variation within each group.", "Average values are never useful.", "It proves causation automatically.", "It cannot be calculated for time."], a: 0, e: "Two groups can have the same average but very different distributions." },
-        { q: "Which health recommendation is most evidence-conscious for a public education booth?", o: ["Promote regular activity, balanced diet, sufficient sleep, and avoiding tobacco without promising zero risk.", "Promise that one supplement removes all risk.", "Focus only on weight.", "Avoid discussing uncertainty."], a: 0, e: "Balanced, realistic advice is more responsible than absolute claims." },
-        { q: "If a lifestyle score gives 2 points each for poor sleep, inactivity, and high stress, what is a weakness of equal weighting?", o: ["Different factors may not contribute equally to risk.", "Equal weights always make the score invalid.", "The score cannot be added.", "Stress cannot be measured at all."], a: 0, e: "Equal weights are simple but may not reflect real differences in effect sizes." },
-        { q: "A booth asks about exercise frequency but not intensity or duration. What limitation does this create?", o: ["It may miss important differences in actual physical activity.", "Frequency is unrelated to behavior.", "The survey becomes impossible to answer.", "It eliminates recall bias."], a: 0, e: "Exercise frequency alone does not capture total activity, intensity, or duration." },
-        { q: "A participant improves from zero exercise to two sessions per week. Which interpretation is best?", o: ["It may be a meaningful improvement even if it is not perfect.", "It has no value unless it is daily.", "It guarantees disease prevention.", "It only matters if paired with expensive equipment."], a: 0, e: "Incremental improvements can be meaningful and more sustainable than unrealistic goals." },
-        { q: "Why might self-reported diet data be inaccurate?", o: ["People may forget, underestimate, or answer in socially desirable ways.", "Diet cannot be described with words.", "All participants intentionally lie.", "Only doctors can answer diet questions."], a: 0, e: "Recall bias and social desirability bias can affect self-reported data." },
-        { q: "Which pair of variables could be confounded in a lifestyle survey?", o: ["Exercise and health status, because healthier people may be more able to exercise.", "Question number and paper color.", "Participant name and table height.", "Stamp card and chalk color."], a: 0, e: "Existing health can influence exercise behavior, making simple cause-effect interpretation difficult." },
-        { q: "A risk score labels someone ‘medium risk.’ What should the facilitator avoid saying?", o: ["You will definitely develop a disease.", "This suggests areas for reflection.", "This is not a diagnosis.", "You may consider healthier habits."], a: 0, e: "Risk labels should not be framed as certainty or diagnosis." },
-        { q: "Why is stress relevant in health education even if it is hard to measure precisely?", o: ["It can influence behavior, sleep, and long-term well-being.", "It is irrelevant because it is subjective.", "It always causes the same outcome in everyone.", "It replaces all physical risk factors."], a: 0, e: "Stress interacts with behaviors and well-being, but it should be discussed with appropriate nuance." },
-        { q: "Which statement best summarizes lifestyle risk mathematically?", o: ["Risk is influenced by multiple variables, and no single habit explains all outcomes.", "One habit determines every outcome exactly.", "Risk cannot be estimated at all.", "All variables must have equal impact."], a: 0, e: "Lifestyle risk is multivariable and probabilistic rather than deterministic." }
-      ],
-      probability: [
-        { q: "A risk changes from 4% to 6%. What are the absolute and relative increases?", o: ["2 percentage points; 50% relative increase.", "2%; 2% relative increase.", "50 percentage points; 2% relative increase.", "6 percentage points; 4% relative increase."], a: 0, e: "Absolute increase is 6−4 = 2 percentage points. Relative increase is 2/4 = 50%." },
-        { q: "A screening test has sensitivity 90%. Among 200 people who truly have the condition, about how many test positive?", o: ["180", "90", "20", "200"], a: 0, e: "Sensitivity 90% means 90% of true cases test positive: 0.9 × 200 = 180." },
-        { q: "A test has specificity 96%. Among 500 people without the condition, about how many false positives occur?", o: ["20", "480", "96", "4"], a: 0, e: "Specificity 96% means 4% false-positive rate. 0.04 × 500 = 20." },
-        { q: "A risk is written as 1 in 250. What percentage is this?", o: ["0.4%", "2.5%", "4%", "25%"], a: 0, e: "1 ÷ 250 = 0.004 = 0.4%." },
-        { q: "Two independent events have probabilities 0.2 and 0.35. What is the probability that both occur?", o: ["0.07", "0.55", "0.15", "0.35"], a: 0, e: "For independent events, multiply: 0.2 × 0.35 = 0.07." },
-        { q: "If A and B are mutually exclusive with P(A)=0.25 and P(B)=0.30, what is P(A or B)?", o: ["0.55", "0.075", "0.05", "0.70"], a: 0, e: "Mutually exclusive events do not overlap, so P(A or B)=0.25+0.30=0.55." },
-        { q: "Relative risk of 0.75 means:", o: ["The exposed group has 25% lower risk than the reference group.", "The exposed group has 75 percentage points lower risk.", "The risk is exactly 0.75%.", "The event is impossible."], a: 0, e: "A relative risk below 1 indicates lower risk. 0.75 means risk is 75% of the reference, or 25% lower." },
-        { q: "A sample of 60 participants has 39 correct answers. What is the sample correct rate?", o: ["65%", "39%", "60%", "75%"], a: 0, e: "39/60 = 0.65 = 65%." },
-        { q: "Which statement about probability is most accurate?", o: ["A 20% risk does not mean the event happens exactly once in every five-person group.", "A 20% risk guarantees one event in every five people.", "Probability only applies to dice.", "A 20% risk is the same as 20 percentage points increase."], a: 0, e: "Probability describes long-run uncertainty, not an exact guarantee in every small group." },
-        { q: "What is the probability of at least one event occurring if the probability of no event is 0.72?", o: ["0.28", "0.72", "1.72", "0.36"], a: 0, e: "P(at least one)=1−P(none)=1−0.72=0.28." },
-        { q: "A test’s positive predictive value depends strongly on:", o: ["Disease prevalence in the tested population.", "The color of the test kit.", "Only the number of options in a quiz.", "Whether the result is printed."], a: 0, e: "Even with the same sensitivity and specificity, predictive value changes with prevalence." },
-        { q: "A model predicts 0.8 probability for an event. Which interpretation is correct?", o: ["The event is expected to occur often in similar cases, but uncertainty remains.", "The event must happen.", "The model is useless unless probability is 0 or 1.", "The event occurs exactly 80 seconds later."], a: 0, e: "Probabilities quantify uncertainty; 0.8 is high but not certain." },
-        { q: "If P(A)=0.6, P(B)=0.5, and P(A and B)=0.3, what is P(A or B)?", o: ["0.8", "1.1", "0.3", "0.2"], a: 0, e: "Use inclusion-exclusion: 0.6+0.5−0.3=0.8." },
-        { q: "Why is a larger random sample generally preferred?", o: ["It tends to reduce sampling variability.", "It eliminates all bias automatically.", "It guarantees causation.", "It makes percentages unnecessary."], a: 0, e: "Larger random samples often produce more stable estimates, but bias can still exist." },
-        { q: "Which is an example of base-rate neglect?", o: ["Ignoring that a disease is rare when interpreting a positive test result.", "Calculating percentages correctly.", "Comparing two absolute risks.", "Using both sensitivity and specificity."], a: 0, e: "Base-rate neglect occurs when prevalence is ignored while interpreting probabilities." },
-        { q: "A 95% confidence interval is very wide. What does that suggest?", o: ["The estimate is imprecise, possibly due to small sample size or high variability.", "The result is certainly false.", "The sample has no data.", "The risk is always 95%."], a: 0, e: "Wide intervals indicate more uncertainty around the estimate." }
-      ],
-      finance: [
-        { q: "A student receives RM1,500 monthly and saves RM225. What is the savings rate?", o: ["15%", "12.5%", "18%", "22.5%"], a: 0, e: "Savings rate = 225/1500 = 0.15 = 15%." },
-        { q: "A medical bill is RM4,000. Insurance covers 80% after a RM500 deductible. How much does the student pay?", o: ["RM1,200", "RM800", "RM500", "RM3,200"], a: 0, e: "Student pays RM500 deductible plus 20% of remaining RM3,500 = RM700. Total = RM1,200." },
-        { q: "What is the main purpose of insurance?", o: ["To transfer part of uncertain financial loss into a risk-pooling system.", "To guarantee investment profit.", "To remove the need for emergency savings.", "To cover every possible loss without conditions."], a: 0, e: "Insurance pools risk, but policies have exclusions, limits, deductibles, and conditions." },
-        { q: "A student’s essential monthly expenses are RM2,100. A 4-month emergency fund target is:", o: ["RM8,400", "RM6,300", "RM4,200", "RM2,100"], a: 0, e: "Emergency fund target = 2,100 × 4 = RM8,400." },
-        { q: "A loan with lower monthly payment but longer duration should be evaluated by checking:", o: ["Total interest paid over the full loan period.", "Only the first month’s payment.", "The advertisement design.", "Whether the payment feels small today."], a: 0, e: "Longer terms often reduce monthly payments but increase total interest." },
-        { q: "An offer promises guaranteed 20% monthly return with zero risk. What is the most financially literate reaction?", o: ["Treat it as suspicious and verify before acting.", "Accept immediately because it says guaranteed.", "Borrow money to invest more.", "Ignore all written terms."], a: 0, e: "High guaranteed returns with zero risk are a common scam warning sign." },
-        { q: "Which budget choice best supports financial resilience?", o: ["Prioritize necessities, emergency savings, and risk protection before discretionary spending.", "Spend all income if no emergency happened this month.", "Ignore small subscriptions.", "Use debt for every unexpected cost."], a: 0, e: "Resilience requires liquidity, planning, and protection from major risks." },
-        { q: "If a student spends RM350 on wants from an RM1,400 allowance, what percentage goes to wants?", o: ["25%", "20%", "35%", "40%"], a: 0, e: "350/1400 = 0.25 = 25%." },
-        { q: "What is a deductible in insurance?", o: ["The amount the insured pays before insurance coverage starts.", "The maximum profit from a policy.", "A gift from the insurer.", "The total hospital bill before treatment."], a: 0, e: "Deductibles require the policyholder to pay an initial amount before the insurer pays eligible claims." },
-        { q: "A policy has a coverage limit of RM10,000. The eligible loss is RM13,000 after deductible. What is the maximum insurer payment?", o: ["RM10,000", "RM13,000", "RM3,000", "RM23,000"], a: 0, e: "A coverage limit caps the insurer’s payment, even if eligible loss exceeds that limit." },
-        { q: "Which is a common weakness of only tracking monthly income?", o: ["It ignores cash flow timing, fixed obligations, and emergency liquidity.", "Income is never useful.", "Income automatically equals savings.", "Income cannot be measured monthly."], a: 0, e: "Income alone does not show how much is available after expenses and obligations." },
-        { q: "A student has RM500 savings and RM1,000 monthly essential expenses. How many months of emergency coverage is this?", o: ["0.5 months", "1 month", "2 months", "5 months"], a: 0, e: "Coverage = savings/monthly essentials = 500/1000 = 0.5 months." },
-        { q: "Why is diversification often discussed in financial planning?", o: ["It reduces dependence on a single asset or source of risk.", "It guarantees no loss.", "It makes insurance unnecessary.", "It always doubles returns."], a: 0, e: "Diversification spreads risk but does not eliminate all risk." },
-        { q: "Which financial decision best demonstrates opportunity cost?", o: ["Choosing to spend RM200 on entertainment means RM200 less for savings or other goals.", "A free item has no consequences ever.", "Saving and spending are always identical.", "Opportunity cost only applies to companies."], a: 0, e: "Opportunity cost is the value of the next best alternative given up." },
-        { q: "An emergency fund should generally be kept in:", o: ["Accessible and relatively low-risk form.", "A highly volatile asset needed tomorrow.", "Locked investment with large withdrawal penalties.", "Items that are difficult to sell quickly."], a: 0, e: "Emergency funds need liquidity and stability because emergencies are unpredictable." },
-        { q: "Why should financial literacy include medical emergencies?", o: ["Health shocks can create sudden costs and income disruption.", "Medical events never affect finances.", "Insurance replaces all planning.", "Only wealthy people face emergencies."], a: 0, e: "Unexpected illness can affect expenses, income, debt, and long-term financial stability." }
-      ],
-      data: [
-        { q: "A bar chart starts its y-axis at 90 instead of 0, making a small difference look huge. What is the main issue?", o: ["A truncated axis may exaggerate visual differences.", "The chart becomes more accurate.", "The sample size doubles.", "The average becomes invalid."], a: 0, e: "Truncated axes can distort perception of differences." },
-        { q: "For the data 2, 3, 3, 4, 100, which statistic is most affected by the outlier?", o: ["Mean", "Median", "Mode", "Minimum"], a: 0, e: "The mean is pulled upward by extreme values; the median is more robust." },
-        { q: "A survey only asks people who voluntarily visit a health booth. What bias is most likely?", o: ["Selection bias", "No bias", "Arithmetic bias", "Axis bias"], a: 0, e: "People interested in health may be more likely to participate, so the sample may not represent everyone." },
-        { q: "A pie chart has categories adding to 135%. What is the most likely concern?", o: ["Categories may overlap or percentages were calculated incorrectly.", "Pie charts should always exceed 100%.", "The data is automatically more reliable.", "The sample size is too large."], a: 0, e: "A standard pie chart represents parts of a whole, which should total 100% unless multiple responses are allowed." },
-        { q: "A booth reports that 6 out of 8 participants answered correctly. Why should interpretation be cautious?", o: ["The sample is small, so the percentage is unstable.", "6 out of 8 cannot be converted to a percentage.", "The result proves all students understand.", "Small samples remove uncertainty."], a: 0, e: "With only 8 people, each response changes the percentage by 12.5 percentage points." },
-        { q: "Two groups have the same mean score but different score spreads. What should be checked next?", o: ["Variability or distribution shape.", "Only the title of the chart.", "The color of the bars.", "Nothing; same mean means identical groups."], a: 0, e: "Same mean does not imply same distribution. Spread and outliers can differ." },
-        { q: "A line chart shows cancer cases rising. Before concluding risk increased, what should be considered?", o: ["Population growth and age adjustment.", "The line color only.", "Whether the chart has a border.", "The number of categories in the legend only."], a: 0, e: "Raw case counts can increase because there are more people or more older people." },
-        { q: "A survey question asks, ‘Don’t you agree that insurance is essential?’ What problem does it have?", o: ["It is a leading question.", "It is randomly sampled.", "It is perfectly neutral.", "It measures height."], a: 0, e: "Leading questions influence responses by suggesting a preferred answer." },
-        { q: "Which visualization is usually best for showing change over time?", o: ["Line chart", "Pie chart", "Single icon", "Word cloud only"], a: 0, e: "Line charts are commonly used for time trends." },
-        { q: "If a graph omits sample size, what is harder to judge?", o: ["Reliability and uncertainty of the estimate.", "The font family.", "The exact color code.", "Whether the chart is landscape."], a: 0, e: "Sample size helps assess stability and credibility." },
-        { q: "Averages can be misleading when:", o: ["The distribution is highly skewed or contains outliers.", "The data has more than one value.", "The calculation is shown clearly.", "The sample size is reported."], a: 0, e: "Skew and outliers can make the mean unrepresentative." },
-        { q: "A questionnaire allows multiple responses but presents results in a pie chart without explanation. What is the issue?", o: ["Multiple responses may total over 100%, which conflicts with a standard pie chart interpretation.", "Multiple responses always total exactly 100%.", "Pie charts are required for all surveys.", "The chart cannot include labels."], a: 0, e: "For multiple-response data, bar charts are often clearer." },
-        { q: "Which statement is safest when interpreting booth data?", o: ["These results describe our participants, not necessarily the entire university population.", "These results prove national behavior.", "Convenience samples are always representative.", "No uncertainty exists if percentages are calculated."], a: 0, e: "Booth data is usually a convenience sample with limited generalizability." },
-        { q: "A financial chart shows savings increased from RM100 to RM180. What is the percentage increase?", o: ["80%", "44.4%", "180%", "8%"], a: 0, e: "Increase = (180−100)/100 × 100% = 80%." },
-        { q: "What is a confounder?", o: ["A third variable related to both the exposure and outcome that can distort the relationship.", "A wrong answer option.", "A type of prize.", "A chart with no title."], a: 0, e: "Confounders can make an observed relationship appear stronger, weaker, or different from the true relationship." },
-        { q: "Which chart habit improves data honesty?", o: ["Label axes, show units, include sample size, and avoid distorted scales.", "Remove all numbers.", "Use 3D effects to make differences larger.", "Only show favorable data."], a: 0, e: "Clear labeling and fair scaling help viewers interpret data accurately." }
-      ]
-    };
-
-    let state = {
-      participantName: "",
-      answered: 0,
-      correct: 0,
-      currentCategory: null,
-      currentQuestion: null,
-      selectedIndex: null,
-      displayOptions: [],
-      correctDisplayIndex: null,
-      used: {},
-      history: [],
-      roundAnswered: 0,
-      completedCategories: [],
-      giftAnnounced: false,
-        resultSaved: false
-      };
-
-    function init() {
-      categories.forEach(c => state.used[c.id] = []);
-      renderCategories();
-      updateScore();
-      renderLeaderboard();
-      document.getElementById("participantNameInput").addEventListener("keydown", function(event) {
-        if (event.key === "Enter") startParticipant();
-      });
-    }
-
-    function startParticipant() {
-      const input = document.getElementById("participantNameInput");
-      const name = input.value.trim();
-      if (!name) {
-        input.focus();
-        input.style.borderColor = "#b73a3a";
-        return;
-      }
-      state.participantName = name;
-      document.getElementById("participantNameDisplay").textContent = `Participant: ${name}`;
-      document.getElementById("nameScreen").classList.add("hidden");
-      document.getElementById("homeScreen").classList.remove("hidden");
-      updateScore();
-    }
-
-    function renderCategories() {
-      const grid = document.getElementById("categoryGrid");
-      grid.innerHTML = "";
-      categories.forEach(cat => {
-        const isCompleted = state.completedCategories.includes(cat.id);
-        const btn = document.createElement("button");
-        btn.className = "category-card";
-        btn.disabled = isCompleted || state.answered >= 12;
-        btn.style.opacity = isCompleted ? "0.55" : "1";
-        btn.onclick = () => startCategoryRound(cat.id);
-        btn.innerHTML = `<h3>${cat.name}</h3><p>${cat.desc}</p><span class="count">${isCompleted ? "Completed" : "Tap to answer 4 questions"}</span>`;
-        grid.appendChild(btn);
-      });
-    }
-
-    function startCategoryRound(categoryId) {
-      if (state.completedCategories.includes(categoryId) || state.answered >= 12) return;
-      state.currentCategory = categoryId;
-      state.roundAnswered = 0;
-      loadRandomQuestion(categoryId);
-    }
-
-    function loadRandomQuestion(categoryId) {
-      if (state.answered >= 12) return showSummary();
-      const pool = questionBank[categoryId];
-      if (state.used[categoryId].length >= pool.length) state.used[categoryId] = [];
-      const available = pool.map((_, i) => i).filter(i => !state.used[categoryId].includes(i));
-      const index = available[Math.floor(Math.random() * available.length)];
-      state.used[categoryId].push(index);
-      state.currentCategory = categoryId;
-      state.currentQuestion = pool[index];
-      state.selectedIndex = null;
-      const pairedOptions = state.currentQuestion.o.map((text, index) => ({ text, originalIndex: index }));
-      for (let i = pairedOptions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pairedOptions[i], pairedOptions[j]] = [pairedOptions[j], pairedOptions[i]];
-      }
-      state.displayOptions = pairedOptions;
-      state.correctDisplayIndex = pairedOptions.findIndex(option => option.originalIndex === state.currentQuestion.a);
-      showQuestionScreen();
-    }
-
-    function showQuestionScreen() {
-      document.getElementById("homeScreen").classList.add("hidden");
-      document.getElementById("summaryScreen").classList.add("hidden");
-      document.getElementById("questionScreen").classList.remove("hidden");
-      const cat = categories.find(c => c.id === state.currentCategory);
-      const q = state.currentQuestion;
-      document.getElementById("categoryTag").textContent = cat.name;
-      document.getElementById("progressTag").textContent = `Question ${state.answered + 1} of 12 · Category Question ${state.roundAnswered + 1} of 4`;
-      document.getElementById("difficultyTag").textContent = "University Level";
-      document.getElementById("questionText").textContent = q.q;
-      document.getElementById("feedback").className = "feedback hidden";
-      document.getElementById("feedback").innerHTML = "";
-      document.getElementById("nextBtn").classList.add("hidden");
-      document.getElementById("categoryStatusBtn").textContent = "Complete 4 questions in this category";
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      state.displayOptions.forEach((option, index) => {
-        const btn = document.createElement("button");
-        btn.className = "option-btn";
-        btn.textContent = `${String.fromCharCode(65 + index)}. ${option.text}`;
-        btn.onclick = () => submitAnswer(index);
-        optionsDiv.appendChild(btn);
-      });
-    }
-
-    function submitAnswer(index) {
-      if (state.selectedIndex !== null) return;
-      state.selectedIndex = index;
-      const q = state.currentQuestion;
-      const correct = index === state.correctDisplayIndex;
-      if (correct) state.correct += 1;
-      state.answered += 1;
-      state.roundAnswered += 1;
-      state.history.push({
-        participant: state.participantName,
-        category: categories.find(c => c.id === state.currentCategory).name,
-        question: q.q,
-        selected: `${String.fromCharCode(65 + index)}. ${state.displayOptions[index].text}`,
-        answer: `${String.fromCharCode(65 + state.correctDisplayIndex)}. ${state.displayOptions[state.correctDisplayIndex].text}`,
-        explanation: q.e,
-        correct
-      });
-      updateScore();
-
-      const optionButtons = Array.from(document.querySelectorAll(".option-btn"));
-      optionButtons.forEach((btn, i) => {
-        btn.disabled = true;
-        if (i === index) btn.classList.add("selected", correct ? "correct" : "wrong");
-        if (!correct && i === state.correctDisplayIndex) btn.classList.add("reveal-correct");
-      });
-
-      let giftMessage = "";
-      if (state.correct >= 10 && !state.giftAnnounced) {
-        state.giftAnnounced = true;
-        giftMessage = `<p style="font-size:21px;color:#7a510a;background:#fff1cc;border:1px solid #eac264;border-radius:14px;padding:12px;"><strong>Congratulations, ${state.participantName}!</strong> You have reached 10/12 correct answers and earned a small gift.</p>`;
-      }
-
-      const feedback = document.getElementById("feedback");
-      feedback.className = `feedback ${correct ? "correct" : "wrong"}`;
-      feedback.innerHTML = `
-        <h3>${correct ? "Correct" : "Incorrect"}</h3>
-        ${giftMessage}
-        <p><strong>Correct Answer:</strong> ${String.fromCharCode(65 + state.correctDisplayIndex)}. ${state.displayOptions[state.correctDisplayIndex].text}</p>
-        <p><strong>Explanation:</strong> ${q.e}</p>
-      `;
-      feedback.classList.remove("hidden");
-
-      if (state.answered >= 12) {
-        document.getElementById("nextBtn").textContent = "Finish Quiz";
-      } else if (state.roundAnswered >= 4) {
-        document.getElementById("nextBtn").textContent = "Return to Category Page";
-        document.getElementById("categoryStatusBtn").textContent = "Category completed";
-      } else {
-        document.getElementById("nextBtn").textContent = "Next Question in This Category";
-      }
-      document.getElementById("nextBtn").classList.remove("hidden");
-    }
-
-    function nextStep() {
-      if (state.answered >= 12) return showSummary();
-      if (state.roundAnswered >= 4) {
-        if (!state.completedCategories.includes(state.currentCategory)) {
-          state.completedCategories.push(state.currentCategory);
-        }
-        state.roundAnswered = 0;
-        state.currentCategory = null;
-        renderCategories();
-        return backToCategories();
-      }
-      loadRandomQuestion(state.currentCategory);
-    }
-
-    function backToCategories() {
-      document.getElementById("questionScreen").classList.add("hidden");
-      document.getElementById("summaryScreen").classList.add("hidden");
-      document.getElementById("homeScreen").classList.remove("hidden");
-    }
-
-    function showSummary() {
-      if (state.currentCategory && !state.completedCategories.includes(state.currentCategory)) {
-        state.completedCategories.push(state.currentCategory);
-      }
-      document.getElementById("homeScreen").classList.add("hidden");
-      document.getElementById("questionScreen").classList.add("hidden");
-      document.getElementById("summaryScreen").classList.remove("hidden");
-      document.getElementById("finalScore").textContent = state.correct;
-      const badge = document.getElementById("resultBadge");
-      if (state.correct >= 10) {
-        badge.className = "result-badge gift";
-        badge.textContent = `Congratulations, ${state.participantName}! You earned a Stamp + Small Gift.`;
-      } else {
-        badge.className = "result-badge stamp";
-        badge.textContent = `${state.participantName}, you completed the quiz and earned a Booth Stamp.`;
-      }
-      saveLeaderboardResult();
-      renderLeaderboard();
-    }
-
-    function showReview() {
-      const box = document.getElementById("reviewBox");
-      const list = document.getElementById("historyList");
-      list.innerHTML = state.history.map((h, i) => `
-        <div class="history-item">
-          <strong>${i + 1}. ${h.category}</strong><br>
-          ${h.question}<br>
-          <strong>Your answer:</strong> ${h.selected}<br>
-          <strong>Correct answer:</strong> ${h.answer}<br>
-          <strong>Explanation:</strong> ${h.explanation}
-        </div>
-      `).join("");
-      box.classList.toggle("hidden");
-    }
-
-    function updateScore() {
-      document.getElementById("scoreValue").textContent = state.correct;
-      document.getElementById("answeredValue").textContent = state.answered;
-    }
-
-    function getLeaderboard() {
-      try {
-        return JSON.parse(localStorage.getItem("safeBooth5Leaderboard") || "[]");
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveLeaderboardResult() {
-      if (!state.participantName || state.answered < 12) return;
-      if (state.resultSaved) return;
-      state.resultSaved = true;
-      const leaderboard = getLeaderboard();
-      leaderboard.push({
-        name: state.participantName,
-        score: state.correct,
-        answered: state.answered,
-        gift: state.correct >= 10,
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      });
-      leaderboard.sort((a, b) => b.score - a.score);
-      localStorage.setItem("safeBooth5Leaderboard", JSON.stringify(leaderboard.slice(0, 10)));
-    }
-
-    function renderLeaderboard() {
-      const list = document.getElementById("leaderboardList");
-      if (!list) return;
-      const leaderboard = getLeaderboard();
-      if (leaderboard.length === 0) {
-        list.innerHTML = "No completed participants yet.";
-        return;
-      }
-      list.innerHTML = leaderboard.map((item, index) => `
-        <div style="display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;margin:10px 0;padding:9px;border:1px solid rgba(255,255,255,0.25);border-radius:12px;background:rgba(255,255,255,0.06);">
-          <strong style="color:#ffe08b;font-family:Arial,sans-serif;">${index + 1}</strong>
-          <span>${item.name}<br><small style="color:rgba(255,248,230,0.65);">${item.gift ? "Gift qualified" : "Stamp earned"} · ${item.time}</small></span>
-          <strong style="color:#ffe08b;font-family:Arial,sans-serif;">${item.score}/12</strong>
-        </div>
-      `).join("");
-    }
-
-    function clearLeaderboard() {
-      if (confirm("Clear the leaderboard?")) {
-        localStorage.removeItem("safeBooth5Leaderboard");
-        renderLeaderboard();
-      }
-    }
-
-    function resetSession() {
-      state = {
-        participantName: "",
-        answered: 0,
-        correct: 0,
-        currentCategory: null,
-        currentQuestion: null,
-        selectedIndex: null,
-        displayOptions: [],
-        correctDisplayIndex: null,
-        used: {},
-        history: [],
-        roundAnswered: 0,
-        completedCategories: [],
-        giftAnnounced: false
-      };
-      categories.forEach(c => state.used[c.id] = []);
-      document.getElementById("participantNameInput").value = "";
-      document.getElementById("participantNameInput").style.borderColor = "var(--border)";
-      document.getElementById("reviewBox").classList.add("hidden");
-      updateScore();
-      renderCategories();
-      document.getElementById("summaryScreen").classList.add("hidden");
-      document.getElementById("questionScreen").classList.add("hidden");
-      document.getElementById("homeScreen").classList.add("hidden");
-      document.getElementById("nameScreen").classList.remove("hidden");
-    }
-
-    init();
-  </script>
+<script>
+const categories=[{id:"cancer",name:"Cancer Awareness",desc:"Screening, prevention, risk communication, and health evidence."},{id:"lifestyle",name:"Health & Lifestyle",desc:"Habit patterns, risk scoring, confounding, stress, and behavior."},{id:"probability",name:"Probability & Risk",desc:"Absolute risk, relative risk, base rates, Bayes logic, and uncertainty."},{id:"finance",name:"Financial Literacy",desc:"Emergency funds, insurance, deductibles, scams, loans, and resilience."},{id:"data",name:"Data Interpretation",desc:"Misleading graphs, sampling bias, averages, variability, and evidence quality."}];
+function S(q,o,a,e){return{type:"single",q,o,a:[a],e}}function M(q,o,a,e){return{type:"multi",q,o,a,e}}function T(q,a,e){return{type:"tf",q,o:["True","False"],a:[a?0:1],e}}
+const questionBank={
+cancer:[
+S("A poster says a behavior 'doubles cancer risk.' Which missing detail is most important for interpreting the claim?",["The original baseline risk before the doubling","The poster's color scheme","Whether the claim is printed or digital","The number of people who dislike the poster"],0,"Relative risk is incomplete without baseline risk. Doubling 0.1% to 0.2% is very different from doubling 20% to 40%."),
+M("Which statements make a cancer-risk message more responsible? Select all that apply.",["It gives baseline risk","It distinguishes absolute and relative risk","It promises zero risk if people follow the advice","It mentions uncertainty or limitations"],[0,1,3],"Responsible risk communication avoids guarantees and gives enough context to interpret the numbers."),
+S("A screening test has high sensitivity but moderate specificity. What is the most likely trade-off?",["Fewer missed cases but more false positives","No false positives and no false negatives","It becomes a treatment rather than a test","It can replace medical consultation entirely"],0,"High sensitivity reduces false negatives, but moderate specificity can increase false positives."),
+T("A negative screening result means a person has zero future cancer risk.",false,"A negative result lowers concern for what was tested at that time, but it does not eliminate future risk or all possible cancers."),
+S("A disease is rare. Even with a fairly accurate screening test, many positive results may be false positives mainly because:",["Most tested people do not have the disease","Sensitivity becomes useless for rare diseases","False positives can only occur in common diseases","Specificity and prevalence are the same thing"],0,"When prevalence is low, the non-diseased group is large, so even a small false-positive rate can create many false positives."),
+M("Which are examples of cancer risk factors rather than certain causes for every individual? Select all that apply.",["Smoking exposure","Certain inherited mutations","Ageing","Owning a health brochure"],[0,1,2],"Risk factors change probability; they do not guarantee the same outcome for every individual."),
+S("A chart shows cancer cases rising over 20 years. What must be checked before concluding individual risk increased?",["Population size and age structure","Whether the line is red","The number of pages in the report","Whether the title uses capital letters"],0,"Raw case counts can rise due to population growth or ageing. Rates and age-adjusted rates are more meaningful."),
+T("Early detection often improves treatment options, but it does not guarantee survival.",true,"Earlier detection can mean more localized disease and more treatment options, but outcomes still depend on cancer type, stage, biology, and treatment access."),
+S("A participant says, 'My family has no cancer history, so prevention does not matter.' The best response is:",["Family history is only one factor; lifestyle and environment can still affect risk","Family history predicts all cancer outcomes exactly","Lifestyle only matters after diagnosis","No cancer can occur without family history"],0,"Cancer risk is multifactorial; family history is important but not the only determinant."),
+M("Which claims should facilitators avoid because they are too deterministic? Select all that apply.",["This habit guarantees cancer","Healthy living reduces risk but cannot remove it completely","Screening is perfect","Risk depends on multiple factors"],[0,2],"Public-health education should avoid guarantees and perfect-test claims."),
+S("If risk increases from 1% to 1.5%, which statement is correct?",["The absolute increase is 0.5 percentage points and the relative increase is 50%","The absolute increase is 50 percentage points","The relative increase is 0.5%","There is no increase because both values are small"],0,"1.5%-1%=0.5 percentage points. Relative increase is 0.5/1=50%."),
+T("A risk model used in an educational booth should be treated as a diagnosis.",false,"A booth model is for learning and awareness. It should not replace professional medical diagnosis or advice."),
+S("Which explanation best connects cancer awareness to mathematics?",["Mathematics helps compare risks, uncertainty, screening accuracy, and population data","Mathematics removes all uncertainty from medicine","Mathematics is only useful for hospital billing","Mathematics proves exactly who will get cancer"],0,"Probability and statistics help interpret uncertainty; they do not determine individual outcomes with certainty."),
+M("Which factors can limit the accuracy of a cancer awareness statistic? Select all that apply.",["Small sample size","Non-representative sample","Unclear definition of cases","Well-labelled axes"],[0,1,2],"Small or biased samples and unclear definitions weaken interpretation; clear labels help rather than hurt."),
+S("A test has specificity of 95%. Which interpretation is correct?",["Among people without the disease, about 95% test negative","Among people with the disease, 95% recover","The disease prevalence is 95%","The test is always correct for 95% of all populations"],0,"Specificity is the true negative rate among people who do not have the condition."),
+S("Which message is most appropriate for a booth display?",["Screening can support earlier detection, but results should be interpreted with medical guidance","Screening is perfect, so no follow-up is needed","A healthy lifestyle makes cancer impossible","Cancer prevention is only about genetics"],0,"This message is accurate, balanced, and avoids overclaiming.")],
+lifestyle:[
+S("A student has normal BMI but sleeps 4 hours nightly, rarely exercises, and reports high stress. What is the best interpretation?",["BMI alone cannot summarize overall health risk","Normal BMI proves the student is low-risk","Sleep and stress are irrelevant","Exercise only matters for weight loss"],0,"Health is multi-dimensional; BMI alone misses sleep, stress, fitness, diet quality, and metabolic indicators."),
+M("Which limitations apply to a short lifestyle self-assessment? Select all that apply.",["It cannot diagnose disease","It may rely on self-reported answers","It can encourage reflection","It predicts exact disease timing"],[0,1,2],"Self-assessments are useful education tools, but they are not diagnostic or exact predictions."),
+T("A one-week unhealthy routine during exams is less informative than a long-term pattern of habits.",true,"Long-term patterns generally carry more meaning for chronic risk than one temporary week."),
+S("A lifestyle risk score gives equal weight to smoking, sleep, stress, and exercise. What is a key weakness?",["Different factors may not contribute equally to risk","Adding numbers is always invalid","Equal weighting proves causation","Stress cannot be discussed in health education"],0,"Simple scores are easy to use but may oversimplify the relative importance of different risk factors."),
+S("Two groups have the same average sleep duration, but one has much higher stress. What does this show?",["One variable may not capture the whole risk profile","Average sleep fully explains health","Stress cannot interact with sleep","The groups must be identical"],0,"Health risk often depends on multiple interacting variables, not one average."),
+M("Which survey issues can affect lifestyle data quality? Select all that apply.",["Recall bias","Social desirability bias","Selection bias","Using clear response options"],[0,1,2],"People may forget, answer in socially desirable ways, or self-select into the survey."),
+S("A participant says, 'I exercise twice weekly, so diet and sleep no longer matter.' The best response is:",["Exercise helps, but it does not cancel all other risk factors","Exercise makes all health risks zero","Diet only matters for athletes","Sleep is unrelated to health"],0,"Healthy behavior is cumulative; one good habit does not erase every other factor."),
+T("A lifestyle booth should avoid making participants feel diagnosed or labelled as sick.",true,"The booth should educate and guide reflection without giving medical labels."),
+S("Which conclusion is most appropriate from 30 voluntary booth responses?",["The results can describe respondents but should not be generalized to all students","The results prove national trends","Voluntary responses eliminate bias","Thirty responses always prove causation"],0,"Small convenience samples are useful for discussion but limited in representativeness."),
+M("Which are reasonable dimensions for a lifestyle-risk discussion? Select all that apply.",["Sleep pattern","Physical activity","Diet quality","Poster decoration style"],[0,1,2],"Sleep, activity, and diet are meaningful; decoration style is not a lifestyle risk dimension."),
+S("A student improves from no exercise to two sessions weekly. Which interpretation is best?",["It may be meaningful progress even if not perfect","It has no value unless done daily","It guarantees disease prevention","It only matters if the gym is expensive"],0,"Sustainable improvements can be valuable even if they are incremental."),
+T("Self-reported diet data may be affected by memory errors or underreporting.",true,"Diet recall is often imperfect, and people may unintentionally or intentionally misreport."),
+S("Which is a confounding issue in interpreting exercise and health?",["Healthier people may be more able to exercise in the first place","Exercise questions can never be counted","Exercise has no relationship with health","Confounding only exists in finance"],0,"Existing health can influence exercise, making simple cause-effect conclusions difficult."),
+M("Which claims are too strong for a lifestyle booth? Select all that apply.",["Changing one habit guarantees no illness","Healthy habits can reduce some risks","A self-score is a diagnosis","Risk is influenced by multiple variables"],[0,2],"The booth should avoid deterministic and diagnostic claims."),
+S("Why might exercise frequency alone be an incomplete measure?",["It ignores intensity, duration, and type of activity","It is impossible to record","It automatically captures diet","It removes all bias"],0,"Frequency without intensity and duration gives only a partial picture."),
+S("Which statement best summarizes lifestyle risk mathematically?",["It is multivariable and probabilistic, not determined by one habit alone","It is exactly predicted by BMI","It cannot be discussed using data","Every variable must have equal weight"],0,"Lifestyle risk is shaped by multiple variables and uncertainty.")],
+probability:[
+S("A risk changes from 4% to 6%. What are the absolute and relative increases?",["2 percentage points; 50% relative increase","2%; 2% relative increase","50 percentage points; 2% relative increase","6 percentage points; 4% relative increase"],0,"Absolute increase is 6-4=2 percentage points. Relative increase is 2/4=50%."),
+T("A 20% probability means the event must happen exactly once in every five-person group.",false,"Probability describes long-run uncertainty, not an exact guarantee in every small group."),
+S("A screening test has sensitivity 90%. Among 200 true cases, about how many test positive?",["180","90","20","200"],0,"90% of 200 is 180."),
+S("A test has specificity 96%. Among 500 people without the disease, about how many false positives occur?",["20","480","96","4"],0,"A 96% specificity means a 4% false-positive rate. 4% of 500 is 20."),
+M("Which statements about relative risk are correct? Select all that apply.",["RR=1 means equal risk between groups","RR=2 means double the risk of the reference group","RR=0.75 means 25% lower risk than reference","RR always gives the absolute risk"],[0,1,2],"Relative risk compares groups but does not directly show baseline absolute risk."),
+S("A disease affects 1% of a population. Why can a positive screening result still be uncertain?",["Because base rate and false positives matter","Because sensitivity is always zero for rare diseases","Because probability cannot apply to medicine","Because all positive results are false"],0,"For rare conditions, prevalence strongly affects the meaning of a positive result."),
+S("If P(A)=0.6, P(B)=0.5, and P(A and B)=0.3, what is P(A or B)?",["0.8","1.1","0.3","0.2"],0,"Use P(A or B)=P(A)+P(B)-P(A and B)=0.6+0.5-0.3=0.8."),
+T("Correlation alone is enough to prove causation.",false,"Correlation may suggest association, but causation requires stronger evidence and control of confounders."),
+S("A risk is 1 in 250. What is the equivalent percentage?",["0.4%","2.5%","4%","25%"],0,"1/250=0.004=0.4%."),
+M("Which can improve the quality of a probability estimate? Select all that apply.",["Larger random sample","Clear outcome definition","Representative sampling","Choosing only people who agree with the researcher"],[0,1,2],"Reliable estimates need sample size, clear definitions, and representativeness."),
+S("Two independent events have probabilities 0.2 and 0.35. What is the probability both occur?",["0.07","0.55","0.15","0.35"],0,"For independent events, multiply: 0.2×0.35=0.07."),
+S("If P(no event)=0.72, what is P(at least one event)?",["0.28","0.72","1.72","0.36"],0,"The complement rule gives 1-0.72=0.28."),
+T("A wide confidence interval suggests more uncertainty around an estimate.",true,"Wide intervals often reflect smaller samples or greater variability."),
+S("Which is an example of base-rate neglect?",["Ignoring that a disease is rare when interpreting a positive test","Reporting sample size","Comparing absolute risks","Using a labelled graph"],0,"Base-rate neglect occurs when prevalence is ignored."),
+M("Which pairs are easy to confuse? Select all that apply.",["Percentage point vs percent change","Sensitivity vs specificity","Correlation vs causation","Mean vs sample size"],[0,1,2],"These are common conceptual confusions in risk interpretation."),
+S("A model gives probability 0.8 for an event. Which interpretation is best?",["The event is likely in similar cases, but not certain","The event must happen","The model is useless unless probability is 0 or 1","The event occurs exactly 80 minutes later"],0,"0.8 is high probability, not certainty.")],
+finance:[
+S("A student receives RM1,500 monthly and saves RM225. What is the savings rate?",["15%","12.5%","18%","22.5%"],0,"225/1500=0.15=15%."),
+S("A medical bill is RM4,000. Insurance covers 80% after a RM500 deductible. How much does the student pay?",["RM1,200","RM800","RM500","RM3,200"],0,"Pay RM500 deductible plus 20% of RM3,500 = RM700. Total RM1,200."),
+M("Which are valid reasons emergency funds and insurance are not the same? Select all that apply.",["Emergency funds provide liquidity","Insurance transfers selected risks under policy terms","Insurance usually covers every possible expense automatically","Emergency funds can help with non-insured urgent costs"],[0,1,3],"Insurance has terms and limits; emergency funds provide flexible liquidity."),
+T("A lower monthly loan payment always means a cheaper loan overall.",false,"Longer repayment can lower monthly payment while increasing total interest."),
+S("A policy has a RM10,000 coverage limit. The eligible loss is RM13,000 after deductible. What is the maximum insurer payment?",["RM10,000","RM13,000","RM3,000","RM23,000"],0,"Coverage limits cap the insurer's payment."),
+S("Which statement best describes insurance?",["It transfers part of uncertain financial loss into a risk-pooling system","It guarantees investment profit","It removes all need for savings","It covers all losses without conditions"],0,"Insurance pools and transfers specified risks; it does not eliminate all financial responsibility."),
+S("A student has RM500 savings and RM1,000 essential monthly expenses. How many months of coverage is this?",["0.5 months","1 month","2 months","5 months"],0,"500/1000=0.5 months."),
+M("Which are warning signs of a potential financial scam? Select all that apply.",["Guaranteed high return with zero risk","Pressure to decide immediately","No clear written terms","Transparent explanation of fees and risks"],[0,1,2],"High guaranteed returns, urgency, and lack of transparency are common red flags."),
+S("A student chooses a longer loan term to reduce monthly payments. What should be checked?",["Total interest over the full repayment period","Only the first month payment","The card color","Whether the advertisement looks professional"],0,"Total cost matters, not only monthly affordability."),
+T("Opportunity cost means choosing one option may require giving up another valuable option.",true,"Money spent on one purpose cannot be used for the next best alternative."),
+S("A student spends RM350 on wants from RM1,400 allowance. What percentage goes to wants?",["25%","20%","35%","40%"],0,"350/1400=25%."),
+M("Which practices improve financial resilience? Select all that apply.",["Tracking essential expenses","Maintaining accessible emergency savings","Understanding insurance exclusions","Ignoring small recurring subscriptions"],[0,1,2],"Resilience comes from budgeting, liquidity, and understanding risk protection."),
+S("Why should an emergency fund be relatively liquid?",["Emergencies are unpredictable and require quick access","Liquid funds always earn the highest return","Liquidity removes inflation risk","It makes budgeting unnecessary"],0,"Emergency money must be accessible when urgent costs arise."),
+S("A student has high income but no savings and high debt. Another has moderate income, stable savings, and basic insurance. Which is more financially resilient?",["The second student, because resilience depends on buffers and risk management, not income alone","The first student, because income is the only variable","Both are identical","Neither can be assessed under any condition"],0,"Financial resilience depends on cash flow, obligations, liquidity, and protection."),
+T("A deductible is the amount paid by the insured before eligible insurance coverage begins.",true,"Deductibles shift an initial portion of the cost to the policyholder."),
+S("Which decision best reflects financial preparedness for health emergencies?",["Combining emergency savings, budgeting, and understanding insurance coverage","Buying gifts before paying rent","Relying only on borrowing after an emergency","Ignoring policy exclusions"],0,"Preparedness requires both liquidity and risk protection.")],
+data:[
+S("A bar chart starts its y-axis at 90, making a small difference look huge. What is the issue?",["Truncated axis may exaggerate visual differences","The sample size doubles","The chart becomes more accurate","The mean becomes invalid"],0,"A truncated axis can distort visual perception."),
+S("For 2, 3, 3, 4, 100, which statistic is most affected by the outlier?",["Mean","Median","Mode","Minimum"],0,"The mean is pulled upward by the extreme value."),
+M("Which features make a graph more honest? Select all that apply.",["Labelled axes","Units shown","Sample size reported","3D effects that exaggerate differences"],[0,1,2],"Clear labels, units, and sample size support interpretation; decorative distortion can mislead."),
+T("A convenience sample from booth visitors may not represent all university students.",true,"Visitors may differ from non-visitors, creating selection bias."),
+S("A pie chart totals 135%. What is the most likely issue?",["Categories overlap or percentages are calculated incorrectly","Pie charts should always exceed 100%","The data becomes more reliable","The sample size is too large"],0,"A standard pie chart represents parts of a whole; multiple-response data needs clear explanation."),
+S("A survey asks, 'Don't you agree that insurance is essential?' What is the problem?",["It is a leading question","It is perfectly neutral","It measures age","It removes bias"],0,"Leading wording pushes respondents toward a preferred answer."),
+M("Which can make booth survey results less generalizable? Select all that apply.",["Small sample size","Voluntary participation","Conducting the survey at one location only","Reporting the number of respondents"],[0,1,2],"These limit representativeness; reporting sample size improves transparency."),
+S("Two groups have the same mean score but very different spreads. What should be examined?",["Variability or distribution shape","Only the title font","Nothing; same mean means identical groups","Only the highest score"],0,"Same mean can hide differences in spread and distribution."),
+T("Raw case numbers are always sufficient for comparing disease risk across different years.",false,"Population size and age structure may change, so rates or adjusted rates are often needed."),
+S("A result says 6 out of 8 participants answered correctly. Why be cautious?",["The sample is small, so the estimate is unstable","6 out of 8 cannot be converted to a percentage","It proves all students understand","Small samples remove uncertainty"],0,"Each person changes the percentage by 12.5 percentage points."),
+S("Savings increase from RM100 to RM180. What is the percentage increase?",["80%","44.4%","180%","8%"],0,"(180-100)/100=80%."),
+M("Which are possible confounders in a study linking exercise to health? Select all that apply.",["Age","Prior health status","Diet quality","Question card color"],[0,1,2],"These variables can relate to both exercise and health outcomes."),
+S("Which visualization is usually best for showing change over time?",["Line chart","Pie chart","Single icon","Word cloud only"],0,"Line charts are commonly used for trends over time."),
+T("Averages can hide inequality or variation within a group.",true,"Groups can have the same average but very different distributions."),
+S("If a questionnaire allows multiple answers, what is often clearer than a pie chart?",["A bar chart with clear note that multiple responses were allowed","A pie chart forced to 100% without explanation","No labels","A 3D exploding pie chart"],0,"Bar charts are usually clearer for multiple-response questions."),
+S("What is a confounder?",["A third variable related to both exposure and outcome that can distort the relationship","A wrong answer option","A type of prize","A chart without color"],0,"Confounders can make an observed association misleading if not considered.")]
+};
+let state={participantName:"",answered:0,correct:0,currentCategory:null,currentQuestion:null,selectedOriginal:new Set(),displayOptions:[],used:{},history:[],roundAnswered:0,completedCategories:[],giftAnnounced:false,resultSaved:false};
+function init(){categories.forEach(c=>state.used[c.id]=[]);renderCategories();updateScore();renderLeaderboard();document.getElementById("participantNameInput").addEventListener("keydown",e=>{if(e.key==="Enter")startParticipant()})}
+function startParticipant(){const input=document.getElementById("participantNameInput"),name=input.value.trim();if(!name){input.focus();input.style.borderColor="#b73a3a";return}state.participantName=name;document.getElementById("participantNameDisplay").textContent=`Participant: ${name}`;document.getElementById("nameScreen").classList.add("hidden");document.getElementById("homeScreen").classList.remove("hidden");updateScore()}
+function renderCategories(){const grid=document.getElementById("categoryGrid");grid.innerHTML="";categories.forEach(cat=>{const done=state.completedCategories.includes(cat.id),btn=document.createElement("button");btn.className="category-card";btn.disabled=done||state.answered>=12;btn.style.opacity=done?"0.55":"1";btn.onclick=()=>startCategoryRound(cat.id);btn.innerHTML=`<h3>${cat.name}</h3><p>${cat.desc}</p><span class="count">${done?"Completed":"Tap to answer 4 questions"}</span>`;grid.appendChild(btn)})}
+function startCategoryRound(categoryId){if(state.completedCategories.includes(categoryId)||state.answered>=12)return;state.currentCategory=categoryId;state.roundAnswered=0;loadRandomQuestion(categoryId)}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function loadRandomQuestion(categoryId){if(state.answered>=12)return showSummary();const pool=questionBank[categoryId];if(state.used[categoryId].length>=pool.length)state.used[categoryId]=[];const available=pool.map((_,i)=>i).filter(i=>!state.used[categoryId].includes(i)),index=available[Math.floor(Math.random()*available.length)];state.used[categoryId].push(index);state.currentQuestion=pool[index];state.selectedOriginal=new Set();state.displayOptions=shuffle(state.currentQuestion.o.map((text,originalIndex)=>({text,originalIndex})));showQuestionScreen()}
+function showQuestionScreen(){document.getElementById("homeScreen").classList.add("hidden");document.getElementById("summaryScreen").classList.add("hidden");document.getElementById("questionScreen").classList.remove("hidden");const cat=categories.find(c=>c.id===state.currentCategory),q=state.currentQuestion;document.getElementById("categoryTag").textContent=cat.name;document.getElementById("progressTag").textContent=`Question ${state.answered+1} of 12 · Category Question ${state.roundAnswered+1} of 4`;document.getElementById("difficultyTag").textContent="Harder Question Bank";document.getElementById("typeTag").textContent=q.type==="multi"?"Multiple Answer":q.type==="tf"?"True / False":"Single Choice";document.getElementById("questionText").textContent=q.q;document.getElementById("feedback").className="feedback hidden";document.getElementById("feedback").innerHTML="";document.getElementById("nextBtn").classList.add("hidden");document.getElementById("submitMultiBtn").classList.toggle("hidden",q.type!=="multi");document.getElementById("categoryStatusBtn").textContent="Complete 4 questions in this category";const optionsDiv=document.getElementById("options");optionsDiv.innerHTML="";state.displayOptions.forEach((option,i)=>{const btn=document.createElement("button");btn.className="option-btn";btn.textContent=`${String.fromCharCode(65+i)}. ${option.text}`;btn.onclick=()=>q.type==="multi"?toggleMulti(i,btn):submitAnswer([option.originalIndex]);optionsDiv.appendChild(btn)})}
+function toggleMulti(i,btn){const original=state.displayOptions[i].originalIndex;if(state.selectedOriginal.has(original)){state.selectedOriginal.delete(original);btn.classList.remove("multi-selected")}else{state.selectedOriginal.add(original);btn.classList.add("multi-selected")}}
+function sameSet(a,b){if(a.size!==b.length)return false;return b.every(x=>a.has(x))}
+function submitMultiAnswer(){if(state.selectedOriginal.size===0){alert("Please select at least one answer.");return}submitAnswer([...state.selectedOriginal])}
+function submitAnswer(selectedOriginals){const q=state.currentQuestion,selectedSet=new Set(selectedOriginals),correct=sameSet(selectedSet,q.a);if(correct)state.correct++;state.answered++;state.roundAnswered++;const answerText=state.displayOptions.filter(x=>q.a.includes(x.originalIndex)).map(x=>x.text).join("; "),selectedText=state.displayOptions.filter(x=>selectedSet.has(x.originalIndex)).map(x=>x.text).join("; ");state.history.push({category:categories.find(c=>c.id===state.currentCategory).name,question:q.q,selected:selectedText||"No answer",answer:answerText,explanation:q.e,correct});updateScore();const buttons=[...document.querySelectorAll(".option-btn")];buttons.forEach((btn,i)=>{btn.disabled=true;const original=state.displayOptions[i].originalIndex;if(selectedSet.has(original))btn.classList.add("selected",correct?"correct":"wrong");if(q.a.includes(original))btn.classList.add("reveal-correct")});document.getElementById("submitMultiBtn").classList.add("hidden");let gift="";if(state.correct>=10&&!state.giftAnnounced){state.giftAnnounced=true;gift=`<p style="font-size:21px;color:#7a510a;background:#fff1cc;border:1px solid #eac264;border-radius:14px;padding:12px;"><strong>Congratulations, ${state.participantName}!</strong> You have reached 10/12 correct answers and earned a small gift.</p>`}const feedback=document.getElementById("feedback");feedback.className=`feedback ${correct?"correct":"wrong"}`;feedback.innerHTML=`<h3>${correct?"Correct":"Incorrect"}</h3>${gift}<p><strong>Correct Answer:</strong> ${answerText}</p><p><strong>Explanation:</strong> ${q.e}</p>`;feedback.classList.remove("hidden");if(state.answered>=12)document.getElementById("nextBtn").textContent="Finish Quiz";else if(state.roundAnswered>=4){document.getElementById("nextBtn").textContent="Return to Category Page";document.getElementById("categoryStatusBtn").textContent="Category completed"}else document.getElementById("nextBtn").textContent="Next Question in This Category";document.getElementById("nextBtn").classList.remove("hidden")}
+function nextStep(){if(state.answered>=12)return showSummary();if(state.roundAnswered>=4){if(!state.completedCategories.includes(state.currentCategory))state.completedCategories.push(state.currentCategory);state.roundAnswered=0;state.currentCategory=null;renderCategories();return backToCategories()}loadRandomQuestion(state.currentCategory)}
+function backToCategories(){document.getElementById("questionScreen").classList.add("hidden");document.getElementById("summaryScreen").classList.add("hidden");document.getElementById("homeScreen").classList.remove("hidden")}
+function showSummary(){if(state.currentCategory&&!state.completedCategories.includes(state.currentCategory))state.completedCategories.push(state.currentCategory);document.getElementById("homeScreen").classList.add("hidden");document.getElementById("questionScreen").classList.add("hidden");document.getElementById("summaryScreen").classList.remove("hidden");document.getElementById("finalScore").textContent=state.correct;const badge=document.getElementById("resultBadge");if(state.correct>=10){badge.className="result-badge gift";badge.textContent=`Congratulations, ${state.participantName}! You earned a Stamp + Small Gift.`}else{badge.className="result-badge stamp";badge.textContent=`${state.participantName}, you completed the quiz and earned a Booth Stamp.`}saveLeaderboardResult();renderLeaderboard()}
+function showReview(){const box=document.getElementById("reviewBox"),list=document.getElementById("historyList");list.innerHTML=state.history.map((h,i)=>`<div class="history-item"><strong>${i+1}. ${h.category}</strong><br>${h.question}<br><strong>Your answer:</strong> ${h.selected}<br><strong>Correct answer:</strong> ${h.answer}<br><strong>Explanation:</strong> ${h.explanation}</div>`).join("");box.classList.toggle("hidden")}
+function updateScore(){document.getElementById("scoreValue").textContent=state.correct;document.getElementById("answeredValue").textContent=state.answered}
+function getLeaderboard(){try{return JSON.parse(localStorage.getItem("safeBooth5Leaderboard")||"[]")}catch(e){return[]}}
+function saveLeaderboardResult(){if(!state.participantName||state.answered<12||state.resultSaved)return;state.resultSaved=true;const lb=getLeaderboard();lb.push({name:state.participantName,score:state.correct,answered:state.answered,gift:state.correct>=10,time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})});lb.sort((a,b)=>b.score-a.score);localStorage.setItem("safeBooth5Leaderboard",JSON.stringify(lb.slice(0,10)))}
+function renderLeaderboard(){const list=document.getElementById("leaderboardList");if(!list)return;const lb=getLeaderboard();if(!lb.length){list.innerHTML="No completed participants yet.";return}list.innerHTML=lb.map((item,i)=>`<div style="display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;margin:10px 0;padding:9px;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:rgba(255,255,255,.06);"><strong style="color:#ffe08b;font-family:Arial,sans-serif;">${i+1}</strong><span>${item.name}<br><small style="color:rgba(255,248,230,.65);">${item.gift?"Gift qualified":"Stamp earned"} · ${item.time}</small></span><strong style="color:#ffe08b;font-family:Arial,sans-serif;">${item.score}/12</strong></div>`).join("")}
+function clearLeaderboard(){if(confirm("Clear the leaderboard?")){localStorage.removeItem("safeBooth5Leaderboard");renderLeaderboard()}}
+function resetSession(){state={participantName:"",answered:0,correct:0,currentCategory:null,currentQuestion:null,selectedOriginal:new Set(),displayOptions:[],used:{},history:[],roundAnswered:0,completedCategories:[],giftAnnounced:false,resultSaved:false};categories.forEach(c=>state.used[c.id]=[]);document.getElementById("participantNameInput").value="";document.getElementById("participantNameInput").style.borderColor="var(--border)";document.getElementById("reviewBox").classList.add("hidden");updateScore();renderCategories();document.getElementById("summaryScreen").classList.add("hidden");document.getElementById("questionScreen").classList.add("hidden");document.getElementById("homeScreen").classList.add("hidden");document.getElementById("nameScreen").classList.remove("hidden")}
+init();
+</script>
 </body>
 </html>
