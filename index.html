@@ -96,7 +96,7 @@
         <h2>Leaderboard</h2>
         <div class="chalk-line"></div>
         <div class="rule"><span>✓</span><div>Complete all 12 questions to receive a booth stamp.</div></div>
-        <div class="rule"><span>★</span><div>Score 10/12 or above to win a small gift.</div></div>
+        <div class="rule"><span>★</span><div>Score 8/12 or above to win a small gift.</div></div>
         <div class="rule"><span>!</span><div>For multiple-answer questions, select all correct answers.</div></div>
         <div class="chalk-line"></div>
         <div id="leaderboardList" class="mini-note" style="font-size:17px;line-height:1.45;">No completed participants yet.</div>
@@ -147,9 +147,9 @@
           <div class="scorebar">
             <div class="scoreitem"><strong id="finalScore">0</strong><span>Final Score</span></div>
             <div class="scoreitem"><strong>12</strong><span>Total Questions</span></div>
-            <div class="scoreitem"><strong>10</strong><span>Gift Threshold</span></div>
+            <div class="scoreitem"><strong>8</strong><span>Gift Threshold</span></div>
           </div>
-          <p style="font-size:20px;line-height:1.4;color:var(--muted);">All participants who complete the quiz receive a booth stamp. Participants who score 10/12 or above receive a small gift.</p>
+          <p style="font-size:20px;line-height:1.4;color:var(--muted);">All participants who complete the quiz receive a booth stamp. Participants who score 8/12 or above receive a small gift.</p>
           <div class="footer-actions">
             <button class="btn-accent" onclick="resetSession()">Start New Participant</button>
             <button class="btn-secondary" onclick="showReview()">Review Answered Questions</button>
@@ -417,9 +417,9 @@ function submitAnswer(selectedOriginals){
   });
   document.getElementById("submitMultiBtn").classList.add("hidden");
   let gift="";
-  if(state.correct>=10&&!state.giftAnnounced){
+  if(state.correct>=8&&!state.giftAnnounced){
     state.giftAnnounced=true;
-    gift=`<p style="font-size:21px;color:#7a510a;background:#fff1cc;border:1px solid #eac264;border-radius:14px;padding:12px;"><strong>Congratulations, ${state.participantName}!</strong> You have reached 10/12 correct answers and earned a small gift.</p>`;
+    gift=`<p style="font-size:21px;color:#7a510a;background:#fff1cc;border:1px solid #eac264;border-radius:14px;padding:12px;"><strong>Congratulations, ${state.participantName}!</strong> You have reached 8/12 correct answers and earned a small gift.</p>`;
   }
   const feedback=document.getElementById("feedback");
   feedback.className=`feedback ${correct?"correct":"wrong"}`;
@@ -458,7 +458,7 @@ function showSummary(){
   document.getElementById("summaryScreen").classList.remove("hidden");
   document.getElementById("finalScore").textContent=state.correct;
   const badge=document.getElementById("resultBadge");
-  if(state.correct>=10){
+  if(state.correct>=8){
     badge.className="result-badge gift";
     badge.textContent=`Congratulations, ${state.participantName}! You earned a Stamp + Small Gift.`;
   }else{
@@ -496,7 +496,7 @@ function saveLeaderboardResult(){
     name:state.participantName,
     score:state.correct,
     answered:state.answered,
-    gift:state.correct>=10,
+    gift:state.correct>=8,
     time:new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),
     timestamp:Date.now(),
     answers:state.history.map(h=>({questionId:h.questionId,type:h.type,category:h.category,question:h.question,selected:h.selected,answer:h.answer,correct:h.correct}))
